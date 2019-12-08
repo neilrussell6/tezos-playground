@@ -31,8 +31,8 @@ Additional Docs
 ---
 
  - [Notebooks (Jupyter Lab)](docs/jupyter.md)
- - [Testing](docs/pytest.md)
- - [Linting](docs/flake8.md)
+ - [Testing](docs/testing.md)
+ - [Linting](docs/linting.md)
  - [Babylonnet](docs/babylonnet.md)
  - [Smart Contracts](docs/smart-contracts.md)
  - [IDE Setup](docs/ide-intellij-python.md)
