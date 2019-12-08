@@ -1,0 +1,13 @@
+[
+{"prim":"storage","args":[
+ {"prim":"int"}]
+},
+{"prim":"parameter","args":[
+ {"prim":"int"}]
+},
+{"prim":"code","args":[
+ [{"prim":"DUP"},{"prim":"CDR"},{"prim":"SWAP"},{"prim":"CAR"},{"prim":"DUP"},{"prim":"DUP"},{"prim":"ADD"},{"prim":"DUG","args":[{"int":"2"}]},{"prim":"DROP"},{"prim":"DROP"},
+ {"prim":"NIL","args":[
+  {"prim":"operation"}]
+ },{"prim":"PAIR"}]]
+}]

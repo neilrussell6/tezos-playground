@@ -1,0 +1,21 @@
+# Python
+__pycache__
+
+# IDE
+.idea
+
+# env
+venv
+.env
+.env.local
+.env.test
+pytest.ini
+
+# build
+build
+
+# local
+.backups
+
+# test
+.pytest_cache

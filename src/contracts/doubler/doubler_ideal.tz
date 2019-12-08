@@ -1,0 +1,7 @@
+parameter int;
+storage int;
+code { CAR;
+       DUP;
+       ADD;
+       NIL operation;
+       PAIR };
