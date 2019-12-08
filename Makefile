@@ -119,6 +119,11 @@ help:
 	@$(call printDefListItem," - babylonnet-stop","Stop local BabylonNet.")
 	@$(call printDefListItem," - babylonnet-test","Manually test contract interaction on BabylonNet locally (C=<contact name>$(COMMA) S=<storage value>$(COMMA) V=<input value>).")
 	@$(call printDefListItem," - babylonnet-typecheck","Type check a contract on BabylonNet locally (C=$(COMMA)<contact name>).")
+	@$(call printDefListItem," - babylonnet-addresses","list known addresses on BabylonNet")
+	@$(call printDefListItem," - babylonnet-contracts","listing known contracts on BabylonNet")
+	@$(call printDefListItem," - babylonnet-deploy","deploy contract to BabylonNet (C=<contact name>)")
+	@$(call printDefListItem," - babylonnet-call","call deployed BabylonNet contract using account (C=<contact name>$(COMMA) A=<account key>$(COMMA) I=<input> D?=<dry-run>)")
+	@$(call printDefListItem," - babylonnet-compare-sync","compare BabylonNet last sync timestamp with current timestamp")
 	@echo ""
 
 # ------------------------------------------------------------
@@ -384,3 +389,45 @@ babylonnet-typecheck:
 	@$(call print,h3,"type checking contract on BabylonNet ...")
 	@$(BABYLONNET_FILE) client typecheck script container:src/contracts/$(C)/$(C).tz -details
 	@$(call print,h3,"... complete")
+
+.PHONY: babylonnet-addresses
+babylonnet-addresses:
+	@$(call print,h3,"listing known addresses on BabylonNet ...")
+	@$(BABYLONNET_FILE) client list known addresses
+	@$(call print,h3,"... complete")
+
+.PHONY: babylonnet-contracts
+babylonnet-contracts:
+	@$(call print,h3,"listing known contracts on BabylonNet ...")
+	@$(BABYLONNET_FILE) client list known contracts
+	@$(call print,h3,"... complete")
+
+.PHONY: babylonnet-deploy
+babylonnet-deploy: C:=
+babylonnet-deploy: A:=
+babylonnet-deploy: S:=
+babylonnet-deploy:
+	@$(call print,h3,"deployment contract $(C) to BabylonNet ...")
+	@$(BABYLONNET_FILE) client originate contract $(C) transferring 0.1 from $(A) running container:src/contracts/$(C)/$(C).tz --init $(S) --burn-cap 0.295
+	@$(call print,h3,"... complete")
+
+.PHONY: babylonnet-call
+babylonnet-call: C:=
+babylonnet-call: A:=
+babylonnet-call: I:=
+babylonnet-call: F:=0
+babylonnet-call: D:=false
+babylonnet-call:
+ifeq ("$(D)","true")
+	@$(call print,h3,"dry-run calling deployed BabylonNet contract $(C) with $(I) using account $(A)...")
+	$(BABYLONNET_FILE) client transfer $(F) from $(A) to $(C) -arg $(I) -D
+else
+	@$(call print,h3,"calling deployed BabylonNet contract $(C) with $(I) using account $(A)...")
+	$(BABYLONNET_FILE) client transfer $(F) from $(A) to $(C) -arg $(I)
+endif
+	@$(call print,h3,"... complete")
+
+.PHONY: babylonnet-compare-sync
+babylonnet-compare-sync:
+	@$(call print,h3,"comparing BabylonNet last sync timestamp with current timestamp ...")
+	@$(BABYLONNET_FILE) client get timestamp && date -u +"%Y-%m-%dT%H:%M:%SZ"
