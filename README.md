@@ -1,6 +1,9 @@
 Tezos Playground
 ===
 
+Watch an example of Tezos smart contract TDD, using SmartPy and PyTezos:
+[![Watch the video](https://i9.ytimg.com/vi/fvd1HhkGfHY/mq2.jpg?sqp=CN3xs-8F&rs=AOn4CLBPvM-4KrzzyRDeW7TP9sQXQrgonQ)](https://youtu.be/fvd1HhkGfHY)
+
 Setup
 ---
 
