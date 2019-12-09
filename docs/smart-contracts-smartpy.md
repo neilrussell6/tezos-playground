@@ -16,18 +16,18 @@ Example Flow
 
 1. create a module for your contract eg.
    ```bash
-   src/contracts/repeater
+   src/contracts/persister
    ```
 2. create a SmartPy test for your contract eg.
    ```bash
-   repeater_contract_sptest.py
+   persister_sptest.py
    ```
    this will include:
    1. fixtures that build your contract
    2. and tests that interact with it and assert on it's state
 3. create a SmartPy file for your contract eg.
    ```bash
-   repeater_contract.py
+   persister.py
    ```
 4. run tests:
    ```bash

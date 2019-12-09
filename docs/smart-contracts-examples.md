@@ -5,16 +5,16 @@ Smart Contracts :: Examples
 
 Here is an example of a Michelson Smart Contract, with no automated tests:
 ```bash
-contracts/repeater2/repeater2.tz
+contracts/persister/persister.tz
 ```
 
 To manually "test" it on BabylonNet run:
 ```bash
-make babylonnet-test C=repeater2 S=0 V=5
+make babylonnet-test C=persister S=0 V=5
 ```
 To type check it on BabylonNet run:
 ```bash
-make babylonnet-typecheck C=repeater2
+make babylonnet-typecheck C=persister
 ```
 
 For more info see [Michelson + BabylonNet](smart-contracts-babylonnet.md).
@@ -45,13 +45,11 @@ For more info see [Michelson + PyTezos](smart-contracts-pytezos.md).
 
 Here are examples of a SmartPy Smart Contracts:
 ```bash
-contracts/repeater/repeater_contract.py
-contracts/certification/certification_contract.py
+contracts/persiter/persiter.py
 ```
 And here are tests for them, also written in SmartPy:
 ```bash
-contracts/repeater/repeater_contract_sptest.py
-contracts/certification/certification_contract_sptest.py
+contracts/persiter/persiter.py
 ```
 
 To run these tests:
