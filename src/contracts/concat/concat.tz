@@ -1,7 +1,0 @@
-parameter string;
-storage string;
-code { DUP;
-       DIP { CAR ; NIL string ; SWAP ; CONS } ;
-  CDR ; CONS ;
-      CONCAT ;
-      NIL operation; PAIR }

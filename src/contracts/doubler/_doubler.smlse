@@ -1,2 +1,0 @@
-(storage (record (storage (literal (intOrNat 0))))
-messages ((double ((linenb -1) (set (attr (data) "storage") (add (params) (params))) ))))
