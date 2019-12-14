@@ -1,0 +1,20 @@
+[
+{"prim":"storage","args":[
+ {"prim":"pair","args":[
+  {"prim":"list","args":[
+   {"prim":"string"}]
+  ,"annots":["%certified"]},{"prim":"address","annots":["%certifier"]}]
+ }]
+},
+{"prim":"parameter","args":[
+ {"prim":"string"}]
+},
+{"prim":"code","args":[
+ [{"prim":"DUP"},{"prim":"CDR"},{"prim":"SWAP"},{"prim":"CAR"},{"prim":"SWAP"},{"prim":"DUP"},{"prim":"DUG","args":[{"int":"2"}]},{"prim":"CDR"},{"prim":"SENDER"},{"prim":"COMPARE"},{"prim":"EQ"},
+ {"prim":"IF","args":[
+  [[]],[[{"prim":"PUSH","args":[{"prim":"string"},{"string":"WrongCondition: sp.sender == self.data.certifier"}]},{"prim":"FAILWITH"}]]]
+ },{"prim":"SWAP"},{"prim":"DUP"},{"prim":"DUG","args":[{"int":"2"}]},{"prim":"DUP"},{"prim":"CAR"},{"prim":"DIG","args":[{"int":"2"}]},{"prim":"DUP"},{"prim":"DUG","args":[{"int":"3"}]},{"prim":"CONS"},{"prim":"SWAP"},{"prim":"CDR"},{"prim":"SWAP"},{"prim":"PAIR"},{"prim":"DUG","args":[{"int":"2"}]},{"prim":"DROP"},{"prim":"DROP"},
+ {"prim":"NIL","args":[
+  {"prim":"operation"}]
+ },{"prim":"PAIR"}]]
+}]

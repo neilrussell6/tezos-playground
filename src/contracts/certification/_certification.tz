@@ -1,0 +1,43 @@
+parameter string;
+storage   (pair (list %certified string) (address %certifier));
+code
+  {
+    DUP;        # pair(params, storage).pair(params, storage)
+    CDR;        # storage.pair(params, storage)
+    SWAP;       # pair(params, storage).storage
+    CAR;        # params.storage
+    # Entry point: certify # params.storage
+    # sp.verify(sp.sender == self.data.certifier) # params.storage
+    SWAP;       # storage.params
+    DUP;        # storage.storage.params
+    DUG 2;      # storage.params.storage
+    CDR;        # address.params.storage
+    SENDER;     # address.address.params.storage
+    COMPARE;    # int.params.storage
+    EQ;         # bool.params.storage
+    IF
+      {}
+      {
+        PUSH string "WrongCondition: sp.sender == self.data.certifier"; # string.params.storage
+        FAILWITH;   # FAILED
+      }; # params.storage
+    # self.data.certified.push(params) # params.storage
+    SWAP;       # storage.params
+    DUP;        # storage.storage.params
+    DUG 2;      # storage.params.storage
+    DUP;        # storage.storage.params.storage
+    CAR;        # list string.storage.params.storage
+    DIG 2;      # params.list string.storage.storage
+    DUP;        # params.params.list string.storage.storage
+    DUG 3;      # params.list string.storage.params.storage
+    CONS;       # list string.storage.params.storage
+    SWAP;       # storage.list string.params.storage
+    CDR;        # address.list string.params.storage
+    SWAP;       # list string.address.params.storage
+    PAIR;       # pair (list string) address.params.storage
+    DUG 2;      # params.storage.pair (list string) address
+    DROP;       # storage.pair (list string) address
+    DROP;       # pair (list string) address
+    NIL operation; # list operation.pair (list string) address
+    PAIR;       # pair (list operation) (pair (list string) address)
+  } # pair (list operation) (pair (list string) address)
