@@ -9,11 +9,12 @@ class Certification(sp.Contract):
     """
     def __init__(self):
         self.init(
-            certified=sp.list(t=sp.TString),
+            certified=sp.map(tkey=sp.TAddress, tvalue=sp.TString),
             certifier=sp.address('tz1W4W2yFAHz7iGyQvFys4K7Df9mZL6cSKCp'),
         )
 
     @sp.entryPoint
     def certify(self, params):
         sp.verify(sp.sender == self.data.certifier)
-        self.data.certified.push(params)
+        sp.verify(self.data.certified.contains(params.address) != True)
+        self.data.certified[params.address] = params.name

@@ -1,5 +1,5 @@
-parameter string;
-storage   (pair (list %certified string) (address %certifier));
+parameter (pair (address %address) (string %name));
+storage   (pair (map %certified address string) (address %certifier));
 code
   {
     DUP;        # pair(params, storage).pair(params, storage)
@@ -21,23 +21,48 @@ code
         PUSH string "WrongCondition: sp.sender == self.data.certifier"; # string.params.storage
         FAILWITH;   # FAILED
       }; # params.storage
-    # self.data.certified.push(params) # params.storage
+    # sp.verify((self.data.certified.contains(params.address)) != True) # params.storage
+    PUSH bool True; # bool.params.storage
+    DIG 2;      # storage.bool.params
+    DUP;        # storage.storage.bool.params
+    DUG 3;      # storage.bool.params.storage
+    CAR;        # map address string.bool.params.storage
+    DIG 2;      # params.map address string.bool.storage
+    DUP;        # params.params.map address string.bool.storage
+    DUG 3;      # params.map address string.bool.params.storage
+    CAR;        # address.map address string.bool.params.storage
+    MEM;        # bool.bool.params.storage
+    COMPARE;    # int.params.storage
+    NEQ;        # bool.params.storage
+    IF
+      {}
+      {
+        PUSH string "WrongCondition: (self.data.certified.contains(params.address)) != True"; # string.params.storage
+        FAILWITH;   # FAILED
+      }; # params.storage
+    # self.data.certified[params.address] = params.name # params.storage
     SWAP;       # storage.params
     DUP;        # storage.storage.params
     DUG 2;      # storage.params.storage
     DUP;        # storage.storage.params.storage
-    CAR;        # list string.storage.params.storage
-    DIG 2;      # params.list string.storage.storage
-    DUP;        # params.params.list string.storage.storage
-    DUG 3;      # params.list string.storage.params.storage
-    CONS;       # list string.storage.params.storage
-    SWAP;       # storage.list string.params.storage
-    CDR;        # address.list string.params.storage
-    SWAP;       # list string.address.params.storage
-    PAIR;       # pair (list string) address.params.storage
-    DUG 2;      # params.storage.pair (list string) address
-    DROP;       # storage.pair (list string) address
-    DROP;       # pair (list string) address
-    NIL operation; # list operation.pair (list string) address
-    PAIR;       # pair (list operation) (pair (list string) address)
-  } # pair (list operation) (pair (list string) address)
+    CAR;        # map address string.storage.params.storage
+    DIG 2;      # params.map address string.storage.storage
+    DUP;        # params.params.map address string.storage.storage
+    DUG 3;      # params.map address string.storage.params.storage
+    CDR;        # string.map address string.storage.params.storage
+    SOME;       # option string.map address string.storage.params.storage
+    DIG 3;      # params.option string.map address string.storage.storage
+    DUP;        # params.params.option string.map address string.storage.storage
+    DUG 4;      # params.option string.map address string.storage.params.storage
+    CAR;        # address.option string.map address string.storage.params.storage
+    UPDATE;     # map address string.storage.params.storage
+    SWAP;       # storage.map address string.params.storage
+    CDR;        # address.map address string.params.storage
+    SWAP;       # map address string.address.params.storage
+    PAIR;       # pair (map address string) address.params.storage
+    DUG 2;      # params.storage.pair (map address string) address
+    DROP;       # storage.pair (map address string) address
+    DROP;       # pair (map address string) address
+    NIL operation; # list operation.pair (map address string) address
+    PAIR;       # pair (list operation) (pair (map address string) address)
+  } # pair (list operation) (pair (map address string) address)
