@@ -349,7 +349,7 @@ smartpy-compile:
 .PHONY: babylonnet-h
 babylonnet-h:
 	@$(call print,h3,"BabylonNet help ...")
-	@$(BABYLONNET_FILE) man
+	@$(BABYLONNET_FILE) client man
 
 .PHONY: babylonnet
 babylonnet: P?=$(BABYLONNET_DEFAULT_PORT)
@@ -397,18 +397,28 @@ babylonnet-addresses:
 	@$(call print,h3,"... complete")
 
 .PHONY: babylonnet-contracts
+babylonnet-contracts: C:=
 babylonnet-contracts:
+ifeq ("$(C)","")
 	@$(call print,h3,"listing known contracts on BabylonNet ...")
 	@$(BABYLONNET_FILE) client list known contracts
+else
+	@$(call print,h3,"showing known contract $(C) on BabylonNet ...")
+	@$(call print,h3,"balance:")
+	@$(BABYLONNET_FILE) client get balance for $(C)
+	@$(call print,h3,"storage:")
+	@$(BABYLONNET_FILE) client get contract storage for $(C)
+endif
 	@$(call print,h3,"... complete")
 
 .PHONY: babylonnet-deploy
 babylonnet-deploy: C:=
 babylonnet-deploy: A:=
 babylonnet-deploy: S:=
+babylonnet-deploy: B:=1.0
 babylonnet-deploy:
 	@$(call print,h3,"deployment contract $(C) to BabylonNet ...")
-	@$(BABYLONNET_FILE) client originate contract $(C) transferring 0.1 from $(A) running container:src/contracts/$(C)/$(C).tz --init $(S) --burn-cap 0.295
+	@$(BABYLONNET_FILE) client originate contract $(C) transferring 0.1 from $(A) running container:src/contracts/$(C)/$(C).tz --init '$(S)' --burn-cap $(B)
 	@$(call print,h3,"... complete")
 
 .PHONY: babylonnet-call
@@ -416,14 +426,15 @@ babylonnet-call: C:=
 babylonnet-call: A:=
 babylonnet-call: I:=
 babylonnet-call: F:=0
+babylonnet-call: B:=1.0
 babylonnet-call: D:=false
 babylonnet-call:
 ifeq ("$(D)","true")
 	@$(call print,h3,"dry-run calling deployed BabylonNet contract $(C) with $(I) using account $(A)...")
-	$(BABYLONNET_FILE) client transfer $(F) from $(A) to $(C) -arg $(I) -D
+	@$(BABYLONNET_FILE) client transfer $(F) from $(A) to $(C) -arg '$(I)' -D
 else
 	@$(call print,h3,"calling deployed BabylonNet contract $(C) with $(I) using account $(A)...")
-	$(BABYLONNET_FILE) client transfer $(F) from $(A) to $(C) -arg $(I)
+	@$(BABYLONNET_FILE) client transfer $(F) from $(A) to $(C) -arg '$(I)' --burn-cap $(B)
 endif
 	@$(call print,h3,"... complete")
 

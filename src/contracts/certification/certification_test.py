@@ -77,10 +77,7 @@ def test_certify_does_not_allow_duplicate_certifications(certification):
     result = certification \
         .call(name='STUDENT 1', address=student1_address) \
         .result(
-            storage={
-                'certified': [],
-                'certifier': certifier_address,
-            },
+            storage={'certified': [], 'certifier': 'tz1bVNHSrD3sneJXQToWzzJ72eNmon2FH1D9'},
             sender=certifier_address,
         )
     assert len(result.storage['certified']) == 1

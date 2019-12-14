@@ -40,3 +40,24 @@ Additional Docs
  - [Babylonnet](docs/babylonnet.md)
  - [Smart Contracts](docs/smart-contracts.md)
  - [IDE Setup](docs/ide-intellij-python.md)
+
+
+Certification
+---
+
+### Smart Contract
+
+to deploy the smart contract run:
+```
+make babylonnet-deploy C=certification A=<wallet name> S='(Pair {} "<certifier address>")' B=1.0
+```
+
+to call the deployed smart contract run:
+```
+make babylonnet-call C=certification A=<wallet name> I='(Pair "<student address>" "<student name>")'
+```
+
+to view the current storage state of the deployed smart contract run:
+```
+make babylonnet-contracts C=certification
+```
