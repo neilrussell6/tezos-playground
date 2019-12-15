@@ -12,7 +12,7 @@
     "serve": "npm-run-all _build _serve"
   },
   "keywords": [],
-  "author": "Neil Russell [neilrussell6@gmail.com]",
+  "author": "Neil Russell <neilrussell6@gmail.com>",
   "license": "ISC",
   "repository": {
     "type": "git",
