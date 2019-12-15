@@ -355,12 +355,12 @@ babylonnet-h:
 babylonnet: P?=$(BABYLONNET_DEFAULT_PORT)
 babylonnet:
 	@$(call print,h3,"starting BabylonNet on port $(P) ...")
-	@$(BABYLONNET_FILE) start --rpc-port $(P)
+	@$(BABYLONNET_FILE) start --rpc-port $(P) --cors-header='content-type' --cors-origin='*'
 	@$(call print,h3,"BabylonNet running on port $(P) ...")
 
 .PHONY: babylonnet-restart
 babylonnet-restart:
-	@$(call print,h3,"restarting BabylonNet on port $(P) ...")
+	@$(call print,h3,"restarting BabylonNet ...")
 	@$(BABYLONNET_FILE) restart
 
 .PHONY: babylonnet-status

@@ -1,15 +1,34 @@
 {
   "name": "tezos-playground",
-  "version": "1.0.0",
-  "description": "Tezos Playground ===",
+  "version": "0.1.0",
+  "description": "Tezos Playground",
   "main": "index.js",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "serve": "npx dotenv -e .env.local -- node server.js -p 3000"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "Neil Russell [neilrussell6@gmail.com]",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neilrussell6/tezos-playground.git"
+  },
+  "bugs": {
+    "url": "https://github.com/neilrussell6/tezos-playground/issues"
+  },
+  "homepage": "https://github.com/neilrussell6/tezos-playground#readme",
+  "dependencies": {
+    "connect": "^3.7.0",
+    "dotenv-cli": "^3.1.0",
+    "ramda": "^0.26.1",
+    "serve-static": "^1.14.1"
+  },
+  "devDependencies": {
+    "dotenv-webpack": "^1.7.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
+  }
 }

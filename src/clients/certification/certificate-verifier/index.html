@@ -1,0 +1,26 @@
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="./app.css">
+  <title>Check Certification</title>
+  <script src="/vendor/jquery/index.js"></script>
+  <script src="/vendor/eztz/eztz.min.js"></script>
+</head>
+<body>
+<div id="app-container">
+  <div class="title-bar">Check Certification</div>
+  <div class="content-box">
+    <table class="form-table">
+      <tr><td class="col-1">
+        <input class="form-input" type="text" id="address" placeholder="Address"/>
+      </td><td>
+        <a href="#"><div class="form-submit" onclick="certification.getCertStatus('#address','#result-bar')">Check</div></a>
+      </td></tr>
+      <tr><td colspan="2">
+        <div id="result-bar" class="result-bar"></div>
+      </td></tr>
+    </table>
+  </div>
+</div>
+<script src="/dist/certification.bundle.js"></script>
+</body>
+</html>
