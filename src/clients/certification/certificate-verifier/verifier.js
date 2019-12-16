@@ -1,3 +1,12 @@
+const EZTZ_PROVIDER = process.env.EZTZ_PROVIDER ? process.env.EZTZ_PROVIDER : 'http://localhost:8732'
+const EZTZ_CONTRACT_ADDRESS = process.env.EZTZ_CONTRACT_ADDRESS ? process.env.EZTZ_CONTRACT_ADDRESS : null
+
+if (EZTZ_CONTRACT_ADDRESS === null) {
+  throw Error('Please set EZTZ_CONTRACT_ADDRESS in .env.local')
+}
+
+eztz.node.setProvider(EZTZ_PROVIDER)
+
 const updateStatusUI = (status, itemSelector) => {
   const bar = $(itemSelector).removeClass().addClass("result-bar")
 
