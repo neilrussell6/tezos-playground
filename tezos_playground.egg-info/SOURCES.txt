@@ -1,0 +1,9 @@
+README.md
+setup.cfg
+setup.py
+tezos_playground.egg-info/PKG-INFO
+tezos_playground.egg-info/SOURCES.txt
+tezos_playground.egg-info/dependency_links.txt
+tezos_playground.egg-info/entry_points.txt
+tezos_playground.egg-info/requires.txt
+tezos_playground.egg-info/top_level.txt

@@ -17,6 +17,7 @@ chardet==3.0.4            # via requests
 click-log==0.3.2
 click==7.0
 colorama==0.4.1           # via pytest-watch
+conseil==0.1.4
 coverage==4.5.4           # via pytest-cov
 cycler==0.10.0            # via matplotlib
 decopatch==1.4.7          # via pytest-cases
@@ -98,7 +99,7 @@ python-dotenv==0.10.3
 pytzdata==2019.3          # via pendulum
 pyyaml==5.1.2             # via watchdog
 pyzmq==18.1.1             # via jupyter-client, notebook
-requests==2.22.0          # via pytezos
+requests==2.22.0          # via conseil, pytezos
 secp256k1==0.13.2         # via pytezos
 send2trash==1.5.0         # via notebook
 simplejson==3.17.0        # via pytezos

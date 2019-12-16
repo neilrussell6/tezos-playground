@@ -442,3 +442,20 @@ endif
 babylonnet-compare-sync:
 	@$(call print,h3,"comparing BabylonNet last sync timestamp with current timestamp ...")
 	@$(BABYLONNET_FILE) client get timestamp && date -u +"%Y-%m-%dT%H:%M:%SZ"
+
+#------------------------------
+# cli
+#------------------------------
+
+.PHONY: install
+install:
+# if called directly
+ifeq ($(MAKECMDGOALS),install)
+	@$(call print,h3,"installing script ...")
+	@pip install --editable .
+	@$(call print,h3,"... success")
+# if called as dependency
+else
+	@$(call print,h3,"installing script")
+	@pip install --editable .
+endif

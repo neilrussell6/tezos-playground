@@ -1,0 +1,4 @@
+
+        [console_scripts]
+        tezos-playground=src.clients.conseilpy.cli:cli
+    
