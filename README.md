@@ -39,6 +39,7 @@ Additional Docs
  - [smartpy.io](docs/smartpyio.md)
  - [Babylonnet](docs/babylonnet.md)
  - [Smart Contracts](docs/smart-contracts.md)
+ - [Clients](docs/clients.md)
  - [IDE Setup](docs/ide-intellij-python.md)
 
 
