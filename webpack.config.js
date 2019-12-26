@@ -1,35 +1,55 @@
 const path = require('path')
 const Dotenv = require('dotenv-webpack')
 
-const verifierConfig = {
-  entry: './src/clients/certification/certificate-verifier/verifier.js',
+const plugins = [
+  new Dotenv({
+    path: './.env',
+  }),
+]
+
+const eztzVerifierConfig = {
+  entry: './src/clients/eztz/certification/certificate-verifier/verifier.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'verifier.bundle.js',
-    library: 'verifier'
+    filename: 'eztz-verifier.bundle.js',
+    library: 'eztzVerifier'
   },
-  plugins: [
-    new Dotenv({
-      path: './.env.local',
-    }),
-  ],
+  plugins,
 }
 
-const certifierConfig = {
-  entry: './src/clients/certification/certificate-certifier/certifier.js',
+const eztzCertifierConfig = {
+  entry: './src/clients/eztz/certification/certificate-certifier/certifier.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'certifier.bundle.js',
-    library: 'certifier'
+    filename: 'eztz-certifier.bundle.js',
+    library: 'eztzCertifier'
   },
-  plugins: [
-    new Dotenv({
-      path: './.env.local',
-    }),
-  ],
+  plugins,
+}
+
+const conseiljsVerifierConfig = {
+  entry: './src/clients/conseiljs/certification/certificate-verifier/verifier.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'conseiljs-verifier.bundle.js',
+    library: 'conseiljsVerifier'
+  },
+  plugins,
+}
+
+const conseiljsCertifierConfig = {
+  entry: './src/clients/conseiljs/certification/certificate-certifier/certifier.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'conseiljs-certifier.bundle.js',
+    library: 'conseiljsCertifier'
+  },
+  plugins,
 }
 
 module.exports = [
-  verifierConfig,
-  certifierConfig,
+  eztzVerifierConfig,
+  eztzCertifierConfig,
+  conseiljsVerifierConfig,
+  conseiljsCertifierConfig,
 ]

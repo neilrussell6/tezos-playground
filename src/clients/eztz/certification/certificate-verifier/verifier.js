@@ -1,9 +1,4 @@
-const EZTZ_PROVIDER = process.env.EZTZ_PROVIDER ? process.env.EZTZ_PROVIDER : 'http://localhost:8732'
-const EZTZ_CONTRACT_ADDRESS = process.env.EZTZ_CONTRACT_ADDRESS ? process.env.EZTZ_CONTRACT_ADDRESS : null
-
-if (EZTZ_CONTRACT_ADDRESS === null) {
-  throw Error('Please set EZTZ_CONTRACT_ADDRESS in .env.local')
-}
+const EZTZ_PROVIDER = process.env.BABYLONNET_URL
 
 eztz.node.setProvider(EZTZ_PROVIDER)
 
@@ -21,10 +16,10 @@ const updateStatusUI = (status, itemSelector) => {
   }
 }
 
-export const getCertStatus = ({ EZTZ_CONTRACT_ADDRESS }) => (inputId, outputId) => {
+export const getCertStatus = (inputId, outputId) => {
   updateStatusUI("loading", outputId)
 
-  return eztz.contract.storage(EZTZ_CONTRACT_ADDRESS)
+  return eztz.contract.storage(process.env.CERTIFICATION_CONTRACT_ADDRESS)
     .then(contractStorage => {
       console.debug(JSON.stringify(contractStorage, null, 4))
       const students = contractStorage.args[0].map(x => x.args[0])

@@ -349,29 +349,31 @@ smartpy-compile:
 .PHONY: babylonnet-h
 babylonnet-h:
 	@$(call print,h3,"BabylonNet help ...")
-	@$(BABYLONNET_FILE) client man
+	$(BABYLONNET_FILE) client man
 
 .PHONY: babylonnet
 babylonnet: P?=$(BABYLONNET_DEFAULT_PORT)
 babylonnet:
 	@$(call print,h3,"starting BabylonNet on port $(P) ...")
-	@$(BABYLONNET_FILE) start --rpc-port $(P) --cors-header='content-type' --cors-origin='*'
-	@$(call print,h3,"BabylonNet running on port $(P) ...")
+	$(BABYLONNET_FILE) start --rpc-port $(P)
+	@$(call print,h3,	"BabylonNet running on port $(P) ...")
+
+//@$(BABYLONNET_FILE) start --rpc-port $(P) --cors-header='content-type' --cors-origin='*'
 
 .PHONY: babylonnet-restart
 babylonnet-restart:
 	@$(call print,h3,"restarting BabylonNet ...")
-	@$(BABYLONNET_FILE) restart
+	$(BABYLONNET_FILE) restart
 
 .PHONY: babylonnet-status
 babylonnet-status:
 	@$(call print,h3,"BabylonNet status:")
-	@$(BABYLONNET_FILE) status
+	$(BABYLONNET_FILE) status
 
 .PHONY: babylonnet-stop
 babylonnet-stop:
 	@$(call print,h3,"stopping BabylonNet ...")
-	@$(BABYLONNET_FILE) stop
+	$(BABYLONNET_FILE) stop
 	@$(call print,h3,"... BabylonNet stopped")
 
 .PHONY: babylonnet-test
@@ -380,20 +382,20 @@ babylonnet-test: S:=
 babylonnet-test: V:=
 babylonnet-test:
 	@$(call print,h3,"testing contract on BabylonNet ...")
-	@$(BABYLONNET_FILE) client run script container:src/contracts/$(C)/$(C).tz on storage $(S) and input $(V)
+	$(BABYLONNET_FILE) client run script container:src/contracts/$(C)/$(C).tz on storage $(S) and input $(V)
 	@$(call print,h3,"... complete")
 
 .PHONY: babylonnet-typecheck
 babylonnet-typecheck: C:=
 babylonnet-typecheck:
 	@$(call print,h3,"type checking contract on BabylonNet ...")
-	@$(BABYLONNET_FILE) client typecheck script container:src/contracts/$(C)/$(C).tz -details
+	$(BABYLONNET_FILE) client typecheck script container:src/contracts/$(C)/$(C).tz -details
 	@$(call print,h3,"... complete")
 
 .PHONY: babylonnet-addresses
 babylonnet-addresses:
 	@$(call print,h3,"listing known addresses on BabylonNet ...")
-	@$(BABYLONNET_FILE) client list known addresses
+	$(BABYLONNET_FILE) client list known addresses
 	@$(call print,h3,"... complete")
 
 .PHONY: babylonnet-contracts
@@ -401,13 +403,13 @@ babylonnet-contracts: C:=
 babylonnet-contracts:
 ifeq ("$(C)","")
 	@$(call print,h3,"listing known contracts on BabylonNet ...")
-	@$(BABYLONNET_FILE) client list known contracts
+	$(BABYLONNET_FILE) client list known contracts
 else
 	@$(call print,h3,"showing known contract $(C) on BabylonNet ...")
 	@$(call print,h3,"balance:")
-	@$(BABYLONNET_FILE) client get balance for $(C)
+	$(BABYLONNET_FILE) client get balance for $(C)
 	@$(call print,h3,"storage:")
-	@$(BABYLONNET_FILE) client get contract storage for $(C)
+	$(BABYLONNET_FILE) client get contract storage for $(C)
 endif
 	@$(call print,h3,"... complete")
 
@@ -418,7 +420,7 @@ babylonnet-deploy: S:=
 babylonnet-deploy: B:=1.0
 babylonnet-deploy:
 	@$(call print,h3,"deployment contract $(C) to BabylonNet ...")
-	@$(BABYLONNET_FILE) client originate contract $(C) transferring 0.1 from $(A) running container:src/contracts/$(C)/$(C).tz --init '$(S)' --burn-cap $(B)
+	$(BABYLONNET_FILE) client originate contract $(C) transferring 0.1 from $(A) running container:src/contracts/$(C)/$(C).tz --init '$(S)' --burn-cap $(B)
 	@$(call print,h3,"... complete")
 
 .PHONY: babylonnet-call
@@ -431,17 +433,17 @@ babylonnet-call: D:=false
 babylonnet-call:
 ifeq ("$(D)","true")
 	@$(call print,h3,"dry-run calling deployed BabylonNet contract $(C) with $(I) using account $(A)...")
-	@$(BABYLONNET_FILE) client transfer $(F) from $(A) to $(C) -arg '$(I)' -D
+	$(BABYLONNET_FILE) client transfer $(F) from $(A) to $(C) -arg '$(I)' -D
 else
 	@$(call print,h3,"calling deployed BabylonNet contract $(C) with $(I) using account $(A)...")
-	@$(BABYLONNET_FILE) client transfer $(F) from $(A) to $(C) -arg '$(I)' --burn-cap $(B)
+	$(BABYLONNET_FILE) client transfer $(F) from $(A) to $(C) -arg '$(I)' --burn-cap $(B)
 endif
 	@$(call print,h3,"... complete")
 
 .PHONY: babylonnet-compare-sync
 babylonnet-compare-sync:
 	@$(call print,h3,"comparing BabylonNet last sync timestamp with current timestamp ...")
-	@$(BABYLONNET_FILE) client get timestamp && date -u +"%Y-%m-%dT%H:%M:%SZ"
+	$(BABYLONNET_FILE) client get timestamp && date -u +"%Y-%m-%dT%H:%M:%SZ"
 
 #------------------------------
 # cli

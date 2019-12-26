@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "_build": "webpack-cli",
+    "_build": "webpack-cli --mode=development",
     "_serve": "dotenv -e .env.local -- node server.js -p 8080",
     "serve": "npm-run-all _build _serve"
   },
@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/neilrussell6/tezos-playground#readme",
   "dependencies": {
+    "conseiljs": "^0.3.1",
     "ramda": "^0.26.1"
   },
   "devDependencies": {

@@ -1,12 +1,8 @@
 // This is for demonstration purposes only! Don't handle live keys like this.
 // You can hardcode your account settings and contract address here for local testing.
+const EZTZ_PROVIDER = process.env.BABYLONNET_URL
 
-const EZTZ_PROVIDER = process.env.EZTZ_PROVIDER ? process.env.EZTZ_PROVIDER : 'http://localhost:8732'
-const EZTZ_CONTRACT_ADDRESS = process.env.EZTZ_CONTRACT_ADDRESS ? process.env.EZTZ_CONTRACT_ADDRESS : null
-
-if (EZTZ_CONTRACT_ADDRESS === null) {
-  throw Error('Please set EZTZ_CONTRACT_ADDRESS in .env.local')
-}
+eztz.node.setProvider(EZTZ_PROVIDER)
 
 function updateUISetting(accountSettings) {
   $('#provider').val(accountSettings.provider);
@@ -19,12 +15,10 @@ function updateUISetting(accountSettings) {
 function initUI() {
   updateUISetting({
     provider: EZTZ_PROVIDER,
-    // provider: "https://tezos-dev.cryptonomic-infra.tech",
-    mnemonic: "unusable example where there is no comma",
-    password: "Lc6We9jY74",
-    email: "examplegc.sdvtthoz@tezos.example.org",
-    contractAddress: EZTZ_CONTRACT_ADDRESS,
-    // contractAddress: "KT1CHVNTdvEAxoP6bDvxKuoGVH1NZqEvm4Sa"
+    contractAddress: process.env.CERTIFICATION_CONTRACT_ADDRESS,
+    mnemonic: process.env.CERTIFICATION_CONTRACT_OWNER_MNEMONIC,
+    password: process.env.CERTIFICATION_CONTRACT_OWNER_PASSWORD,
+    email: process.env.CERTIFICATION_CONTRACT_OWNER_EMAIL,
   });
 
   // setup all UI actions
@@ -89,7 +83,7 @@ function certify(studentAddress) {
   reportResult("Sending...", "info", "#result-bar");
 
   const _request = `(Pair "${request}" "Student 2")`
-  return eztz.contract.send(accountSettings.contractAddress, account, keys, 0, _request, "0100000", 100000, 60000)
+  return eztz.contract.send(accountSettings.contractAddress, account, keys, 0, request, "0100000", 100000, 60000)
     .then(res => {
       reportResult(
         $("<a>").html("Op Hash: " + res["hash"]).attr("href", "https://better-call.dev/babylon/" + res["hash"]),
