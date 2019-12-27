@@ -1,11 +1,3 @@
-const CERTIFICATION_CONTRACT_ADDRESS = process.env.CERTIFICATION_CONTRACT_ADDRESS
-  ? process.env.CERTIFICATION_CONTRACT_ADDRESS
-  : null
-
-if (CERTIFICATION_CONTRACT_ADDRESS === null) {
-  throw Error('Please set CERTIFICATION_CONTRACT_ADDRESS in .env')
-}
-
 const serverInfo = {
   url: process.env.CONSEIL_API_URL,
   apiKey: process.env.CONSEIL_API_KEY,
@@ -27,7 +19,7 @@ function updateStatusUI(message,status, itemSelector) {
 
 export function getCertStatus(inputId, outputId) {
   updateStatusUI("loading","loading", outputId)
-  const contractAddress = CERTIFICATION_CONTRACT_ADDRESS
+  const contractAddress = process.env.CERTIFICATION_CONTRACT_ADDRESS
 
   return conseiljs.TezosConseilClient.getAccount(serverInfo, 'babylonnet', contractAddress)
     .then(account => {

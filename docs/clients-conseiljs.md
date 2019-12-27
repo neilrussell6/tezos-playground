@@ -9,17 +9,33 @@ https://conseil-dev.cryptonomic-infra.tech
 https://conseil-prod.cryptonomic-infra.tech  
 ```
 
-You provide server info when using ConseilJS like this:
-```javascript
-const serverInfo = {
-  url: <CONSEIL_API_URL>,
-  apiKey: <CONSEIL_API_KEY>,
-}
-```
+You must provide the Tezos node when using ConseilJS not the above API ^.
+Your local node must be publically accesible (TODO: how to get this working?)
 
-### QUESTIONS
+Questions
+---
 
  - is it possible to setup a local instance of a Conseil server using Docker? are there docker images available?
+ - passing a localhost Tezos node to ConseilJS does not work, how to get this to work?
+
+Issues
+---
+
+### Public Tezos nodes
+for me this is working everytime:
+```
+https://rpcalpha.tzbeta.net
+```
+but this sometimes works sometimes fails
+```
+https://tezos-dev.cryptonomic-infra.tech
+```
+eg. this request
+```
+POST https://tezos-dev.cryptonomic-infra.tech/injection/operation?chain=main
+```
+ - sometimes returns 500 "TypeError: Failed to fetch"
+ - and sometimes succeeds
 
 Resources
 ---

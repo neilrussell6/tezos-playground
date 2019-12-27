@@ -2,7 +2,7 @@
 // You can hardcode your account settings and contract address here for local testing.
 function initUI() {
   updateUISetting({
-    provider: process.env.CONSEIL_API_URL,
+    provider: process.env.BABYLONNET_URL,
     apiKey: process.env.CONSEIL_API_KEY,
     mnemonic: process.env.CERTIFICATION_CONTRACT_OWNER_MNEMONIC,
     password: process.env.CERTIFICATION_CONTRACT_OWNER_PASSWORD,
@@ -90,14 +90,29 @@ async function certify(studentAddress, studentName) {
   const request = '(Pair "' + studentAddress + '" "' + studentName + '" )'
 
   reportResult("Sending...", "info", "#result-bar")
-
+  console.log('tezosNodeUrl', accountSettings.provider)
+  console.log('keyStore', keys)
+  console.log('toAddress', accountSettings.contractAddress)
+  console.log('amount', 0)
+  console.log('operationFee', 100000)
+  console.log('derivationPath', '')
+  console.log('storageLimit', 1000)
+  console.log('gasLimit', 100000)
+  console.log('entrypoint', undefined)
+  console.log('parameters', request)
+  console.log('parameterFormat', conseiljs.TezosParameterFormat.Michelson)
   try {
     const result = await conseiljs.TezosNodeWriter.sendContractInvocationOperation(
       accountSettings.provider,
       keys,
       accountSettings.contractAddress,
-      0, 100000, '', 1000, 100000,
-      undefined, request,
+      0,
+      100000,
+      '',
+      1000,
+      100000,
+      undefined,
+      request,
       conseiljs.TezosParameterFormat.Michelson,
     )
 

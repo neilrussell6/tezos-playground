@@ -7,6 +7,10 @@ const plugins = [
   }),
 ]
 
+const node = {
+  fs: 'empty'
+}
+
 const eztzVerifierConfig = {
   entry: './src/clients/eztz/certification/certificate-verifier/verifier.js',
   output: {
@@ -15,6 +19,7 @@ const eztzVerifierConfig = {
     library: 'eztzVerifier'
   },
   plugins,
+  node,
 }
 
 const eztzCertifierConfig = {
@@ -25,6 +30,7 @@ const eztzCertifierConfig = {
     library: 'eztzCertifier'
   },
   plugins,
+  node,
 }
 
 const conseiljsVerifierConfig = {
@@ -35,6 +41,7 @@ const conseiljsVerifierConfig = {
     library: 'conseiljsVerifier'
   },
   plugins,
+  node,
 }
 
 const conseiljsCertifierConfig = {
@@ -45,6 +52,18 @@ const conseiljsCertifierConfig = {
     library: 'conseiljsCertifier'
   },
   plugins,
+  node,
+}
+
+const conseiljsSandboxConfig = {
+  entry: './src/clients/conseiljs/sandbox/sandbox.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'conseiljs-sandbox.bundle.js',
+    library: 'conseiljsSandbox'
+  },
+  plugins,
+  node,
 }
 
 module.exports = [
@@ -52,4 +71,5 @@ module.exports = [
   eztzCertifierConfig,
   conseiljsVerifierConfig,
   conseiljsCertifierConfig,
+  conseiljsSandboxConfig,
 ]

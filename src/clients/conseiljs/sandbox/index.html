@@ -1,0 +1,47 @@
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="./app.css">
+  <title>Check Certification</title>
+  <script src="/vendor/jquery/index.js"></script>
+</head>
+<body>
+<div id="app-container">
+
+  <div class="title-bar">Ping Contract</div>
+  <div class="content-box">
+    <table class="form-table">
+      <tr><td class="col-2">
+        <a href="#"><div class="form-submit" onclick="conseiljsSandbox.pingContract('#result-bar1', false)">Ping Contract (as owner)</div></a>
+        <a href="#"><div class="form-submit" onclick="conseiljsSandbox.pingContract('#result-bar1', true)">Ping Contract (as non-owner)</div></a>
+      </td></tr>
+      <tr><td colspan="2">
+        <div id="result-bar1" class="result-bar"></div>
+      </td></tr>
+    </table>
+  </div>
+
+  <div class="title-bar">Invoke Contract</div>
+  <div class="content-box">
+    <table class="form-table">
+      <tr><td class="col-2">
+        <div id="settings-box">
+          <p class="form-title">Address</p><input type="text" id="address" class="form-input form-input-small">
+          <p class="form-title">Name</p><input type="text" id="name" class="form-input form-input-small">
+        </div>
+        <a href="#"><div class="form-submit" onclick="conseiljsSandbox.invokeContract('#result-bar2', false)">Invoke Contract (as owner)</div></a>
+        <a href="#"><div class="form-submit" onclick="conseiljsSandbox.invokeContract('#result-bar2', true)">Invoke Contract (as non-owner)</div></a>
+      </td></tr>
+      <tr><td colspan="2">
+        <div id="result-bar2" class="result-bar"></div>
+      </td></tr>
+    </table>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/cryptonomic/conseiljs/dist-web/conseiljs.min.js"
+        integrity="sha384-UpNNRKV+SBzhy/RZr52XlwEbV7wnEb8qHU1d2rZo4ABskJ5Ly0teL1oBaOcybDJV"
+        crossorigin="anonymous"></script>
+<script src="/dist/conseiljs-sandbox.bundle.js"></script>
+</body>
+</html>
