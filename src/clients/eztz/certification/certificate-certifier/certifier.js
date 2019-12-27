@@ -22,7 +22,10 @@ function initUI() {
   })
 
   // setup all UI actions
-  $('#btn_issue').click(() => certify($('#inp_address').val()))
+  $('#btn_issue').click(() => certify(
+    $('#inp_address').val(),
+    $('#inp_name').val(),
+  ))
   $('#btn_settings').click(() => $('#settings-box').toggle())
   $("#upl_input").on("change", loadJsonFile)
   $('#btn_load').click(() => $("#upl_input").click())
@@ -72,25 +75,40 @@ function reportResult(result, type, itemSelector) {
 }
 
 // This is the main function, interacting with the contract through eztz
-function certify(studentAddress) {
+function certify(studentAddress, studentName) {
   const accountSettings = readUISettings()
   eztz.node.setProvider(accountSettings.provider)
   reportResult("Sending...", "info", "#result-bar")
-
-  const request = '"' + studentAddress + '"'
-  const studentName = 'Student 2'
 
   // request
   const keys = eztz.crypto.generateKeys(accountSettings.mnemonic, accountSettings.email + accountSettings.password)
   const toAddress = accountSettings.contractAddress
   const fromAddress = keys.pkh
-  console.log(fromAddress)
-  const amount = ''
-  const data = '(Pair "' + studentAddress + '" "' + studentName + '")'
+  const amount = 0
   const fee = 100000
+  const gasLimit = 100000
+  const storageLimit = 1000
+  const data = `(Pair "${studentAddress}" "${studentName}")`
 
-  // return eztz.contract.send(accountSettings.contractAddress, account, keys, 0, _request, "0100000", 100000, 60000)
-  return eztz.contract.send(toAddress, fromAddress, keys, amount, data, fee)
+  console.log('################################ certify : params')
+  console.log(eztz.utility.sexp2mic(data))
+
+  return eztz.rpc.sendOperation(fromAddress, {
+    kind: 'transaction',
+    fee : fee.toString(),
+    gas_limit: gasLimit.toString(),
+    amount: eztz.utility.mutez(amount).toString(),
+    destination: toAddress,
+    parameters: {
+      entrypoint: 'default',
+      value: eztz.utility.sexp2mic(data),
+    },
+    storage_limit: storageLimit.toString(),
+  }, keys)
+
+  // this hardcodes the gas limit etc for some reason:
+  // return eztz.contract.send(toAddress, fromAddress, keys, amount, data, fee)
+
     .then(res => {
       console.log(res)
       reportResult(
