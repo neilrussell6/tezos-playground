@@ -18,3 +18,9 @@ class Certification(sp.Contract):
         sp.verify(sp.sender == self.data.certifier)
         sp.verify(self.data.certified.contains(params.address) != True)
         self.data.certified[params.address] = params.name
+
+    @sp.entryPoint
+    def revoke(self, params):
+        sp.verify(sp.sender == self.data.certifier)
+        sp.verify(self.data.certified.contains(params.address) == True)
+        del self.data.certified[params.address]

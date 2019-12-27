@@ -10,11 +10,12 @@ Bablyonnet : Deployment
 or 
 
 ```bash
-make babylonnet-deploy C=<contract name> A=<account key> S=<intial storage value>
+make babylonnet-deploy C=<contract name> A=<contract alias> F=<account key> S=<intial storage value>
 ```
 eg.
 ```bash
-make babylonnet-deploy C=persister A=myFirstKey S=0
+make babylonnet-deploy C=persister F=myFirstKey S=0
+make babylonnet-deploy C=certification A=cert F=myFirstKey S="(Pair {} \"tz1bVNHSrD3sneJXQToWzzJ72eNmon2FH1D9\")"
 ```
 
 ### list deployed contracts:

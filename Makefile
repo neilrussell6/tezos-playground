@@ -118,10 +118,10 @@ help:
 	@$(call printDefListItem," - babylonnet-status","Check local BabylonNet status.")
 	@$(call printDefListItem," - babylonnet-stop","Stop local BabylonNet.")
 	@$(call printDefListItem," - babylonnet-test","Manually test contract interaction on BabylonNet locally (C=<contact name>$(COMMA) S=<storage value>$(COMMA) V=<input value>).")
-	@$(call printDefListItem," - babylonnet-typecheck","Type check a contract on BabylonNet locally (C=$(COMMA)<contact name>).")
+	@$(call printDefListItem," - babylonnet-typecheck","Type check a contract on BabylonNet locally (C=<contact name>).")
 	@$(call printDefListItem," - babylonnet-addresses","list known addresses on BabylonNet")
 	@$(call printDefListItem," - babylonnet-contracts","listing known contracts on BabylonNet")
-	@$(call printDefListItem," - babylonnet-deploy","deploy contract to BabylonNet (C=<contact name>)")
+	@$(call printDefListItem," - babylonnet-deploy","deploy contract to BabylonNet (C=<contact name>$(COMMA) A=<alias>$(COMMA) F=<from>$(COMMA) S=<storage>$(COMMA) B=<burn-cap>)")
 	@$(call printDefListItem," - babylonnet-call","call deployed BabylonNet contract using account (C=<contact name>$(COMMA) A=<account key>$(COMMA) I=<input> D?=<dry-run>)")
 	@$(call printDefListItem," - babylonnet-compare-sync","compare BabylonNet last sync timestamp with current timestamp")
 	@echo ""
@@ -382,14 +382,14 @@ babylonnet-test: S:=
 babylonnet-test: V:=
 babylonnet-test:
 	@$(call print,h3,"testing contract on BabylonNet ...")
-	$(BABYLONNET_FILE) client run script container:src/contracts/$(C)/$(C).tz on storage $(S) and input $(V)
+	$(BABYLONNET_FILE) client run script container:src/contracts/$(C)/_$(C).tz on storage $(S) and input $(V)
 	@$(call print,h3,"... complete")
 
 .PHONY: babylonnet-typecheck
 babylonnet-typecheck: C:=
 babylonnet-typecheck:
 	@$(call print,h3,"type checking contract on BabylonNet ...")
-	$(BABYLONNET_FILE) client typecheck script container:src/contracts/$(C)/$(C).tz -details
+	$(BABYLONNET_FILE) client typecheck script container:src/contracts/$(C)/_$(C).tz -details
 	@$(call print,h3,"... complete")
 
 .PHONY: babylonnet-addresses
@@ -416,11 +416,12 @@ endif
 .PHONY: babylonnet-deploy
 babylonnet-deploy: C:=
 babylonnet-deploy: A:=
+babylonnet-deploy: F:=
 babylonnet-deploy: S:=
 babylonnet-deploy: B:=1.0
 babylonnet-deploy:
 	@$(call print,h3,"deployment contract $(C) to BabylonNet ...")
-	$(BABYLONNET_FILE) client originate contract $(C) transferring 0.1 from $(A) running container:src/contracts/$(C)/$(C).tz --init '$(S)' --burn-cap $(B)
+	$(BABYLONNET_FILE) client originate contract $(A) transferring 0.1 from $(F) running container:src/contracts/$(C)/_$(C).tz --init '$(S)' --burn-cap $(B)
 	@$(call print,h3,"... complete")
 
 .PHONY: babylonnet-call

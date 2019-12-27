@@ -11,6 +11,7 @@ function initUI() {
   })
   // setup all UI actions
   $('#btn_issue').click(() => certify($('#inp_address').val(), $('#inp_name').val()))
+  $('#btn_revoke').click(() => revoke($('#inp_address2').val()))
   $('#btn_settings').click(() => $('#settings-box').toggle())
   $("#upl_input").on("change", loadJsonFile)
   $('#btn_load').click(() => $("#upl_input").click())
@@ -69,15 +70,13 @@ function reportResult(result, type, itemSelector) {
                 : "result-load")
 }
 
-// This is the main function, interacting with the contract through eztz
 async function certify(studentAddress, studentName) {
 
   const accountSettings = readUISettings()
 
-  const serverInfo = {
-    url: accountSettings.provider,
-    apiKey: accountSettings.apiKey,
-  }
+  // --------------------------
+  // keys
+  // --------------------------
 
   const keys = await conseiljs.TezosWalletUtil.unlockFundraiserIdentity(
     accountSettings.mnemonic,
@@ -86,8 +85,25 @@ async function certify(studentAddress, studentName) {
     accountSettings.pkh
   )
 
-  const account = keys.pkh
-  const request = '(Pair "' + studentAddress + '" "' + studentName + '" )'
+  // --------------------------
+  // entry points
+  // --------------------------
+
+  const contractParameters = 'parameter (or (pair %certify (address %address) (string %name)) (address %revoke));'
+  const entryPoints = await conseiljs.TezosContractIntrospector.generateEntryPointsFromParams(contractParameters)
+  console.log(entryPoints)
+  entryPoints.forEach(p => {
+    console.log(`${p.name}(${p.parameters.map(pp => (pp.name || 'unnamed') + '/' + pp.type).join(', ')})`)
+  })
+  console.log('################################ entrypoints')
+  console.log('certify: ', entryPoints[0].generateParameter('ADDRESS', 'NAME'))
+  console.log('revoke: ', entryPoints[1].generateParameter('ADDRESS'))
+
+  // --------------------------
+  // transaction
+  // --------------------------
+
+  const request = '(Left (Pair "' + studentAddress + '" "' + studentName + '" ))'
 
   reportResult("Sending...", "info", "#result-bar")
   console.log('tezosNodeUrl', accountSettings.provider)
@@ -127,6 +143,82 @@ async function certify(studentAddress, studentName) {
   } catch(e) {
     console.log(e)
     return reportResult("Error: " + e.error, "error", "#result-bar")
+  }
+}
+
+async function revoke(studentAddress) {
+
+  const accountSettings = readUISettings()
+
+  // --------------------------
+  // keys
+  // --------------------------
+
+  const keys = await conseiljs.TezosWalletUtil.unlockFundraiserIdentity(
+    accountSettings.mnemonic,
+    accountSettings.email,
+    accountSettings.password,
+    accountSettings.pkh
+  )
+
+  // --------------------------
+  // entry points
+  // --------------------------
+
+  const contractParameters = 'parameter (or (pair %certify (address %address) (string %name)) (address %revoke));'
+  const entryPoints = await conseiljs.TezosContractIntrospector.generateEntryPointsFromParams(contractParameters)
+  console.log(entryPoints)
+  entryPoints.forEach(p => {
+    console.log(`${p.name}(${p.parameters.map(pp => (pp.name || 'unnamed') + '/' + pp.type).join(', ')})`)
+  })
+  console.log('################################ entrypoints')
+  console.log('certify: ', entryPoints[0].generateParameter('ADDRESS', 'NAME'))
+  console.log('revoke: ', entryPoints[1].generateParameter('ADDRESS'))
+
+  // --------------------------
+  // transaction
+  // --------------------------
+
+  const request = '(Right "' + studentAddress + '")'
+
+  reportResult("Sending...", "info", "#result-bar2")
+  console.log('tezosNodeUrl', accountSettings.provider)
+  console.log('keyStore', keys)
+  console.log('toAddress', accountSettings.contractAddress)
+  console.log('amount', 0)
+  console.log('operationFee', 100000)
+  console.log('derivationPath', '')
+  console.log('storageLimit', 1000)
+  console.log('gasLimit', 100000)
+  console.log('entrypoint', undefined)
+  console.log('parameters', request)
+  console.log('parameterFormat', conseiljs.TezosParameterFormat.Michelson)
+  try {
+    const result = await conseiljs.TezosNodeWriter.sendContractInvocationOperation(
+      accountSettings.provider,
+      keys,
+      accountSettings.contractAddress,
+      0,
+      100000,
+      '',
+      1000,
+      100000,
+      undefined,
+      request,
+      conseiljs.TezosParameterFormat.Michelson,
+    )
+
+    console.table(result)
+
+    return reportResult(
+      $("<a>").html("Op Hash: " + result["operationGroupID"]).attr("href", "https://better-call.dev/babylon/" + result["operationGroupID"].split('"')[1]),
+      "ok",
+      "#result-bar2"
+    )
+
+  } catch(e) {
+    console.log(e)
+    return reportResult("Error: " + e.error, "error", "#result-bar2")
   }
 }
 
